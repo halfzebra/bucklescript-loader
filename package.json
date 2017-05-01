@@ -1,0 +1,63 @@
+{
+  "name": "bucklescript-loader",
+  "description": "BuckleScript module loader for Webpack",
+  "version": "1.0.0",
+  "author": "Eduard Kyvenko <eduard.kyvenko@gmail.com>",
+  "ava": {
+    "files": [
+      "test/**/*.test.js",
+      "!test/fixtures/**/*"
+    ],
+    "source": [
+      "src/**/*.js"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/halfzebra/bucklescript-loader/issues"
+  },
+  "dependencies": {
+    "cross-spawn": "^5.1.0"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "bs-platform": "^1.7.3",
+    "nyc": "^10.3.0",
+    "webpack": "^2.4.1"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "homepage": "https://github.com/halfzebra/bucklescript-loader",
+  "keywords": [
+    "loader",
+    "module",
+    "reason",
+    "reasonml",
+    "webpack"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "json"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "peerDependencies": {
+    "bs-platform": "1",
+    "webpack": "2"
+  },
+  "repository": {
+    "type:": "git",
+    "url": "https://github.com/halfzebra/bucklescript-loader.git"
+  },
+  "scripts": {
+    "test": "nyc ava"
+  }
+}
