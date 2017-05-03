@@ -4,11 +4,9 @@ const {spawn} = require('cross-spawn');
 const bsb = require.resolve('bs-platform/bin/bsb');
 const os = require('os');
 
-const cwd = process.cwd();
-
-function getConfig() {
+function getConfig(context) {
   return new Promise((resolve, reject) => {
-    readFile(path.resolve(cwd, 'bsconfig.json'), 'utf8', (err, data) => {
+    readFile(path.resolve(context, 'bsconfig.json'), 'utf8', (err, data) => {
       if (err) {
         console.log('Error reading bsconfig.json: ', err);
         reject(err);
@@ -23,18 +21,19 @@ module.exports = function () {
   this.cacheable && this.cacheable();
 
   const callback = this.async();
+  const {context} = this.options;
 
   if (!callback) {
     throw 'bucklescript-loader currently only supports async mode.';
   }
 
-  getConfig()
+  getConfig(context)
     .then(bsconfig => {
 
       let output = '';
       let err = '';
 
-      const compiler = spawn(bsb, ['-make-world'], {stdio: 'pipe'});
+      const compiler = spawn(bsb, ['-make-world'], {stdio: 'pipe', cwd: context});
 
       compiler.stdout.setEncoding('utf8');
       compiler.stdout.on('data', data => {
@@ -59,9 +58,7 @@ module.exports = function () {
           return;
         }
 
-        console.log(this.resourcePath.replace(cwd, ''));
-
-        readFile(cwd + `/lib/js/${this.resourcePath.replace(cwd, '').replace(/\.(re|ml)$/, '')}.js`, callback);
+        readFile(context + `/lib/js/${this.resourcePath.replace(context, '').replace(/\.(re|ml)$/, '')}.js`, callback);
       });
     })
     .catch(err => {

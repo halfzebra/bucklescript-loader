@@ -5,12 +5,11 @@ const webpack = require('webpack');
 
 const bucklescriptLoader = require.resolve('../src');
 const fixturePath = path.resolve(__dirname, 'fixtures/basic');
-const output = path.join(fixturePath, 'output');
-
-process.chdir(fixturePath);
+const output = path.resolve(fixturePath, './output');
 
 const config = {
-  entry: path.join(fixturePath, 'src/basic.re'),
+  context: fixturePath,
+  entry: './src/basic.re',
   output: {
     path: output
   },
