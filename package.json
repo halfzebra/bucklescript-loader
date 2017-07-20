@@ -20,9 +20,8 @@
   },
   "devDependencies": {
     "ava": "^0.19.1",
-    "bs-platform": "^1.7.3",
-    "nyc": "^10.3.0",
-    "webpack": "^2.4.1"
+    "bs-platform": "^1.7.4",
+    "webpack": "^2.6.1"
   },
   "engines": {
     "node": ">=4"
@@ -37,18 +36,6 @@
   ],
   "license": "MIT",
   "main": "src/index.js",
-  "nyc": {
-    "all": true,
-    "include": [
-      "src/**/*.js"
-    ],
-    "reporter": [
-      "text",
-      "json"
-    ],
-    "sourceMap": false,
-    "instrument": false
-  },
   "peerDependencies": {
     "bs-platform": "1",
     "webpack": "2"
@@ -58,6 +45,6 @@
     "url": "https://github.com/halfzebra/bucklescript-loader.git"
   },
   "scripts": {
-    "test": "nyc ava"
+    "test": "ava --verbose"
   }
 }

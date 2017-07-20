@@ -27,11 +27,26 @@ module.exports = function () {
     throw 'bucklescript-loader currently only supports async mode.';
   }
 
+  console.log(this.context);
+
   getConfig(context)
+    .then(bsconfigJson => {
+      let bsconfig;
+      try {
+        bsconfig = JSON.parse(bsconfigJson)
+      } catch (err) {
+        return Promise.reject(new Error(`Failed to parse bsconfig.json in ${context}`))
+      }
+      return Promise.resolve(bsconfig);
+    })
     .then(bsconfig => {
 
       let output = '';
       let err = '';
+
+      console.log(bsconfig);
+
+      //this.addContextDependency(path.join(context, bsconfig.sources.dir));
 
       const compiler = spawn(bsb, ['-make-world'], {stdio: 'pipe', cwd: context});
 
@@ -58,11 +73,26 @@ module.exports = function () {
           return;
         }
 
-        readFile(context + `/lib/js/${this.resourcePath.replace(context, '').replace(/\.(re|ml)$/, '')}.js`, callback);
+        let filePath = path.join(
+          context,
+          '/lib/js/',
+          `${this.resourcePath.replace(context, '').replace(/\.(re|ml)$/, '')}.js`
+        );
+
+        readFile(
+          filePath,
+          'utf8',
+          (err, data) => {
+            console.log(filePath)
+            console.log(data)
+            callback(err, data)
+          }
+        );
       });
     })
     .catch(err => {
+      console.log('HERE:', err)
       this.emitError(new Error(err));
-      callback('Read config error', null);
+      callback(err, null);
     });
 };

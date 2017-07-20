@@ -1,0 +1,1 @@
+Js.log MyModule.message;
